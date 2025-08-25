@@ -510,37 +510,48 @@
             align-items: center;
         }
 
-        .process-step::after {
+        /* Horizontal connectors */
+        .process-step:nth-child(1)::after,
+        .process-step:nth-child(2)::after {
             content: '';
             position: absolute;
-            top: 50px;
-            right: -40px;
-            width: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -20%;
+            width: 40%;
             height: 2px;
             background: var(--primary-purple);
             z-index: 1;
         }
 
-        .process-step:nth-child(3)::after {
-            display: none;
-        }
-
-        .process-step:nth-child(3)::before {
+        .process-step:nth-child(4)::after,
+        .process-step:nth-child(5)::after {
             content: '';
             position: absolute;
-            bottom: -40px;
-            left: 50%;
-            width: 2px;
-            height: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: -20%;
+            width: 40%;
+            height: 2px;
             background: var(--primary-purple);
             z-index: 1;
         }
 
-        .process-step:nth-child(4)::after {
-            left: -40px;
-            right: auto;
+        /* Vertical connector */
+        .process-step:nth-child(3)::before {
+            content: '';
+            position: absolute;
+            bottom: -60%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 120%;
+            background: var(--primary-purple);
+            z-index: 0;
         }
 
+        /* Remove connectors for first and last items */
+        .process-step:nth-child(3)::after,
         .process-step:nth-child(6)::after {
             display: none;
         }
@@ -611,57 +622,6 @@
             line-height: 1.5;
         }
 
-        /* Connector arrows */
-        .process-arrow {
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            z-index: 2;
-        }
-
-        .process-step:nth-child(1)::after,
-        .process-step:nth-child(2)::after {
-            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--primary-purple) calc(100% - 10px), transparent calc(100% - 10px));
-        }
-
-        .process-step:nth-child(1) .arrow-right,
-        .process-step:nth-child(2) .arrow-right {
-            position: absolute;
-            top: 50px;
-            right: -48px;
-            border-left: 8px solid var(--primary-purple);
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            z-index: 3;
-        }
-
-        .process-step:nth-child(3) .arrow-down {
-            position: absolute;
-            bottom: -48px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-top: 8px solid var(--primary-purple);
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            z-index: 3;
-        }
-
-        .process-step:nth-child(4)::after,
-        .process-step:nth-child(5)::after {
-            background: linear-gradient(90deg, transparent 10px, var(--primary-purple) 10px, var(--primary-purple) 100%);
-        }
-
-        .process-step:nth-child(4) .arrow-left,
-        .process-step:nth-child(5) .arrow-left {
-            position: absolute;
-            top: 50px;
-            left: -48px;
-            border-right: 8px solid var(--primary-purple);
-            border-top: 8px solid transparent;
-            border-bottom: 8px solid transparent;
-            z-index: 3;
-        }
 
         /* Completed state indicator */
         .process-step.completed .process-node {
@@ -1406,8 +1366,7 @@
             }
 
             .process-step::after,
-            .process-step::before,
-            .process-arrow {
+            .process-step::before {
                 display: none !important;
             }
 
@@ -1665,7 +1624,6 @@
                                 <span class="process-icon">⚙️</span>
                                 <span class="process-number-badge">1</span>
                             </div>
-                            <div class="arrow-right process-arrow"></div>
                             <div class="process-content">
                                 <h3 class="process-title">Challenge Setup</h3>
                                 <p class="process-desc">Admin sets 8,000 daily step goal and dates</p>
@@ -1677,7 +1635,6 @@
                                 <span class="process-icon">👥</span>
                                 <span class="process-number-badge">2</span>
                             </div>
-                            <div class="arrow-right process-arrow"></div>
                             <div class="process-content">
                                 <h3 class="process-title">Team Formation</h3>
                                 <p class="process-desc">Players grouped into teams of 5 with Captains</p>
@@ -1689,7 +1646,6 @@
                                 <span class="process-icon">📱</span>
                                 <span class="process-number-badge">3</span>
                             </div>
-                            <div class="arrow-down process-arrow"></div>
                             <div class="process-content">
                                 <h3 class="process-title">App Registration</h3>
                                 <p class="process-desc">Join StepUp Showdown on Habit Health app</p>
@@ -1714,7 +1670,6 @@
                                 <span class="process-icon">📊</span>
                                 <span class="process-number-badge">5</span>
                             </div>
-                            <div class="arrow-left process-arrow"></div>
                             <div class="process-content">
                                 <h3 class="process-title">Score Updates</h3>
                                 <p class="process-desc">Leaderboard updates daily at 9 PM</p>
@@ -1726,7 +1681,6 @@
                                 <span class="process-icon">🚶</span>
                                 <span class="process-number-badge">4</span>
                             </div>
-                            <div class="arrow-left process-arrow"></div>
                             <div class="process-content">
                                 <h3 class="process-title">Daily Walking</h3>
                                 <p class="process-desc">Each day = 1 Over, sync steps daily</p>
