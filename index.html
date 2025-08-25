@@ -78,21 +78,19 @@
             padding: 20px 0;
         }
 
-        .nav-logos {
+        .nav-logo {
             display: flex;
             align-items: center;
-            gap: 24px;
         }
 
-        .nav-logos img {
-            height: 32px;
+        .nav-logo img {
+            height: 40px;
             width: auto;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
-        .nav-logos img:hover {
-            opacity: 1;
+        .nav-logo img:hover {
+            transform: scale(1.05);
         }
 
         .nav-menu {
@@ -483,147 +481,293 @@
         }
 
         /* Process Section */
-        .process-timeline {
-            position: relative;
-            max-width: 1000px;
+        .process-workflow {
+            max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .process-line {
-            position: absolute;
-            top: 32px;
-            left: 32px;
-            right: 32px;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-purple), var(--primary-mint));
-            z-index: 0;
-        }
-
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
             position: relative;
-            z-index: 1;
+        }
+
+        .process-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            position: relative;
+        }
+
+        .process-row {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            position: relative;
         }
 
         .process-step {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 32px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
             position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .process-step:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-xl);
+        .process-step::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -40px;
+            width: 80px;
+            height: 2px;
+            background: var(--primary-purple);
+            z-index: 1;
         }
 
-        .process-number {
-            width: 64px;
-            height: 64px;
+        .process-step:nth-child(3)::after {
+            display: none;
+        }
+
+        .process-step:nth-child(3)::before {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            width: 2px;
+            height: 80px;
+            background: var(--primary-purple);
+            z-index: 1;
+        }
+
+        .process-step:nth-child(4)::after {
+            left: -40px;
+            right: auto;
+        }
+
+        .process-step:nth-child(6)::after {
+            display: none;
+        }
+
+        .process-node {
+            width: 100px;
+            height: 100px;
             background: white;
             border: 3px solid var(--primary-purple);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary-purple);
-            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-md);
+        }
+
+        .process-step:hover .process-node {
+            background: var(--primary-purple);
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .process-icon {
+            font-size: 36px;
             transition: all 0.3s ease;
         }
 
-        .process-step:hover .process-number {
-            background: var(--primary-purple);
-            color: white;
+        .process-step:hover .process-icon {
+            filter: brightness(0) invert(1);
+        }
+
+        .process-number-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 32px;
+            height: 32px;
+            background: var(--accent-yellow);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .process-content {
+            text-align: center;
+            margin-top: 20px;
+            max-width: 240px;
         }
 
         .process-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
 
         .process-desc {
             font-size: 14px;
             color: var(--text-secondary);
-            line-height: 1.6;
+            line-height: 1.5;
+        }
+
+        /* Connector arrows */
+        .process-arrow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            z-index: 2;
+        }
+
+        .process-step:nth-child(1)::after,
+        .process-step:nth-child(2)::after {
+            background: linear-gradient(90deg, var(--primary-purple) 0%, var(--primary-purple) calc(100% - 10px), transparent calc(100% - 10px));
+        }
+
+        .process-step:nth-child(1) .arrow-right,
+        .process-step:nth-child(2) .arrow-right {
+            position: absolute;
+            top: 50px;
+            right: -48px;
+            border-left: 8px solid var(--primary-purple);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            z-index: 3;
+        }
+
+        .process-step:nth-child(3) .arrow-down {
+            position: absolute;
+            bottom: -48px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-top: 8px solid var(--primary-purple);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            z-index: 3;
+        }
+
+        .process-step:nth-child(4)::after,
+        .process-step:nth-child(5)::after {
+            background: linear-gradient(90deg, transparent 10px, var(--primary-purple) 10px, var(--primary-purple) 100%);
+        }
+
+        .process-step:nth-child(4) .arrow-left,
+        .process-step:nth-child(5) .arrow-left {
+            position: absolute;
+            top: 50px;
+            left: -48px;
+            border-right: 8px solid var(--primary-purple);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            z-index: 3;
+        }
+
+        /* Completed state indicator */
+        .process-step.completed .process-node {
+            background: var(--primary-mint);
+            border-color: var(--primary-mint);
+        }
+
+        .process-step.completed .process-icon {
+            filter: brightness(0) invert(1);
         }
 
         /* Scoring Section */
         .scoring-wrapper {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .scoring-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+            padding: 40px 0;
         }
 
         .score-card {
-            background: white;
-            border-radius: var(--radius-md);
-            padding: 32px;
             text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            cursor: pointer;
             position: relative;
-            overflow: hidden;
-        }
-
-        .score-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-purple), var(--primary-mint));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .score-card:hover::before {
-            transform: scaleX(1);
+            transition: all 0.3s ease;
         }
 
         .score-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px);
+        }
+
+        .score-icon-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            transition: all 0.3s ease;
+        }
+
+        .score-card:hover .score-icon-wrapper {
+            background: var(--bg-gradient);
+            transform: scale(1.1);
         }
 
         .score-emoji {
-            font-size: 48px;
-            margin-bottom: 16px;
+            font-size: 56px;
         }
 
         .score-value {
-            font-size: 36px;
-            font-weight: 700;
+            font-size: 64px;
+            font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            line-height: 1;
         }
 
         .score-type {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             color: var(--primary-purple);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
         }
 
         .score-steps {
-            font-size: 13px;
-            color: var(--text-tertiary);
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Different colors for each score level */
+        .score-card.dot-ball .score-icon-wrapper {
+            background: #FFE5E5;
+        }
+        .score-card.dot-ball .score-type {
+            color: #DC2626;
+        }
+
+        .score-card.single .score-icon-wrapper {
+            background: #FFF7E5;
+        }
+        .score-card.single .score-type {
+            color: #F59E0B;
+        }
+
+        .score-card.boundary .score-icon-wrapper {
+            background: #E5F3FF;
+        }
+        .score-card.boundary .score-type {
+            color: #3B82F6;
+        }
+
+        .score-card.sixer .score-icon-wrapper {
+            background: #F0E5FF;
+        }
+        .score-card.sixer .score-type {
+            color: #7C3AED;
         }
 
         /* Bonus Rules */
@@ -679,11 +823,11 @@
         /* Teams Section */
         .teams-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 48px;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 32px;
         }
 
-        .team-card {
+        .team-table-card {
             background: white;
             border-radius: var(--radius-lg);
             overflow: hidden;
@@ -691,112 +835,168 @@
             transition: all 0.3s ease;
         }
 
-        .team-card:hover {
-            transform: translateY(-8px);
+        .team-table-card:hover {
             box-shadow: var(--shadow-xl);
         }
 
-        .team-header {
-            padding: 40px;
+        .team-table-header {
+            padding: 24px 32px;
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-mint));
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .team-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, white 0%, transparent 50%);
-            opacity: 0.1;
-        }
-
-        .team-info {
-            position: relative;
-            z-index: 1;
-        }
-
-        .team-emoji {
-            font-size: 56px;
-            margin-bottom: 16px;
-        }
-
-        .team-name {
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-        }
-
-        .team-motto {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .team-members {
-            padding: 32px;
-        }
-
-        .member-list {
-            display: grid;
-            gap: 12px;
-        }
-
-        .member {
+        .team-title-group {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
         }
 
-        .member:hover {
-            background: var(--bg-gradient);
-            transform: translateX(8px);
-        }
-
-        .member-avatar {
+        .team-icon {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-mint));
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
+        }
+
+        .team-title-text {
             color: white;
-            font-weight: 600;
-            font-size: 18px;
         }
 
-        .member-info {
-            flex: 1;
+        .team-name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 2px;
         }
 
-        .member-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .member-role {
+        .team-motto {
             font-size: 13px;
-            color: var(--text-tertiary);
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .member.captain {
-            background: var(--accent-yellow);
+        .team-stats {
+            text-align: right;
+            color: white;
         }
 
-        .member.captain .member-role {
-            color: var(--text-primary);
+        .team-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .team-stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .team-table thead {
+            background: var(--bg-secondary);
+        }
+
+        .team-table th {
+            padding: 16px 24px;
+            text-align: left;
             font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .team-table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 15px;
+        }
+
+        .team-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .team-table tbody tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .team-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .player-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-purple);
+        }
+
+        .player-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .role-badge.captain {
+            background: var(--accent-yellow);
+            color: var(--text-primary);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-indicator.ready {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-indicator::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
         }
 
         /* Leaderboard Section */
@@ -1128,6 +1328,49 @@
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .scoring-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .scoring-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+                padding: 24px 0;
+            }
+
+            .score-value {
+                font-size: 48px;
+            }
+
+            .score-type {
+                font-size: 14px;
+            }
+
+            .score-steps {
+                font-size: 14px;
+            }
+
+            .score-icon-wrapper {
+                width: 80px;
+                height: 80px;
+            }
+
+            .score-emoji {
+                font-size: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scoring-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -1146,16 +1389,93 @@
                 padding-right: 0;
             }
 
-            .process-steps {
-                grid-template-columns: 1fr;
+            .process-workflow {
+                padding: 0 20px;
             }
 
-            .process-line {
-                display: none;
+            .process-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .process-row {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .process-step::after,
+            .process-step::before,
+            .process-arrow {
+                display: none !important;
+            }
+
+            .process-step {
+                padding: 20px;
+                background: white;
+                border-radius: var(--radius-md);
+                box-shadow: var(--shadow-sm);
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .process-node {
+                width: 60px;
+                height: 60px;
+                flex-shrink: 0;
+            }
+
+            .process-icon {
+                font-size: 24px;
+            }
+
+            .process-number-badge {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+                top: -5px;
+                right: -5px;
+            }
+
+            .process-content {
+                text-align: left;
+                margin-top: 0;
+                flex: 1;
+            }
+
+            .process-title {
+                font-size: 16px;
+            }
+
+            .process-desc {
+                font-size: 13px;
             }
 
             .teams-container {
                 grid-template-columns: 1fr;
+            }
+
+            .team-table-header {
+                padding: 20px;
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .team-stats {
+                text-align: center;
+            }
+
+            .team-table th,
+            .team-table td {
+                padding: 12px 16px;
+            }
+
+            .team-table th:nth-child(3),
+            .team-table td:nth-child(3) {
+                display: none;
             }
 
             .footer-grid {
@@ -1215,9 +1535,8 @@
     <nav class="nav">
         <div class="container">
             <div class="nav-inner">
-                <div class="nav-logos">
-                    <img src="assets/habit_health_logo.jpg" alt="Habit Health">
-                    <img src="assets/hcl_healthcare_logo.png" alt="HCL Healthcare">
+                <div class="nav-logo">
+                    <img src="assets/logo.png" alt="Steps Premier League">
                 </div>
                 <div class="nav-menu">
                     <a href="#about" class="nav-link">About</a>
@@ -1338,43 +1657,81 @@
                 </p>
             </div>
             
-            <div class="process-timeline">
-                <div class="process-line"></div>
-                <div class="process-steps">
-                    <div class="process-step fade-in">
-                        <div class="process-number">1</div>
-                        <h3 class="process-title">Challenge Setup</h3>
-                        <p class="process-desc">Admin sets the 8,000 daily step goal and challenge dates</p>
+            <div class="process-workflow">
+                <div class="process-container">
+                    <div class="process-row">
+                        <div class="process-step">
+                            <div class="process-node">
+                                <span class="process-icon">⚙️</span>
+                                <span class="process-number-badge">1</span>
+                            </div>
+                            <div class="arrow-right process-arrow"></div>
+                            <div class="process-content">
+                                <h3 class="process-title">Challenge Setup</h3>
+                                <p class="process-desc">Admin sets 8,000 daily step goal and dates</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="process-node">
+                                <span class="process-icon">👥</span>
+                                <span class="process-number-badge">2</span>
+                            </div>
+                            <div class="arrow-right process-arrow"></div>
+                            <div class="process-content">
+                                <h3 class="process-title">Team Formation</h3>
+                                <p class="process-desc">Players grouped into teams of 5 with Captains</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="process-node">
+                                <span class="process-icon">📱</span>
+                                <span class="process-number-badge">3</span>
+                            </div>
+                            <div class="arrow-down process-arrow"></div>
+                            <div class="process-content">
+                                <h3 class="process-title">App Registration</h3>
+                                <p class="process-desc">Join StepUp Showdown on Habit Health app</p>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="process-step fade-in">
-                        <div class="process-number">2</div>
-                        <h3 class="process-title">Team Formation</h3>
-                        <p class="process-desc">Players grouped into teams of 5 with appointed Captains</p>
-                    </div>
-                    
-                    <div class="process-step fade-in">
-                        <div class="process-number">3</div>
-                        <h3 class="process-title">App Registration</h3>
-                        <p class="process-desc">Join StepUp Showdown on Habit Health app for tracking</p>
-                    </div>
-                    
-                    <div class="process-step fade-in">
-                        <div class="process-number">4</div>
-                        <h3 class="process-title">Daily Walking</h3>
-                        <p class="process-desc">Each day equals 1 Over - sync steps daily in the app</p>
-                    </div>
-                    
-                    <div class="process-step fade-in">
-                        <div class="process-number">5</div>
-                        <h3 class="process-title">Score Updates</h3>
-                        <p class="process-desc">Steps convert to runs, leaderboard updates daily at 9 PM</p>
-                    </div>
-                    
-                    <div class="process-step fade-in">
-                        <div class="process-number">6</div>
-                        <h3 class="process-title">Team Victory</h3>
-                        <p class="process-desc">Highest scoring team wins the championship trophy</p>
+                    <div class="process-row">
+                        <div class="process-step">
+                            <div class="process-node">
+                                <span class="process-icon">🏆</span>
+                                <span class="process-number-badge">6</span>
+                            </div>
+                            <div class="process-content">
+                                <h3 class="process-title">Team Victory</h3>
+                                <p class="process-desc">Highest scoring team wins the trophy</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="process-node">
+                                <span class="process-icon">📊</span>
+                                <span class="process-number-badge">5</span>
+                            </div>
+                            <div class="arrow-left process-arrow"></div>
+                            <div class="process-content">
+                                <h3 class="process-title">Score Updates</h3>
+                                <p class="process-desc">Leaderboard updates daily at 9 PM</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-step">
+                            <div class="process-node">
+                                <span class="process-icon">🚶</span>
+                                <span class="process-number-badge">4</span>
+                            </div>
+                            <div class="arrow-left process-arrow"></div>
+                            <div class="process-content">
+                                <h3 class="process-title">Daily Walking</h3>
+                                <p class="process-desc">Each day = 1 Over, sync steps daily</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1394,29 +1751,37 @@
             
             <div class="scoring-wrapper">
                 <div class="scoring-grid">
-                    <div class="score-card">
-                        <div class="score-emoji">🏏</div>
+                    <div class="score-card dot-ball">
+                        <div class="score-icon-wrapper">
+                            <div class="score-emoji">🏏</div>
+                        </div>
                         <div class="score-value">0</div>
                         <div class="score-type">Dot Ball</div>
                         <div class="score-steps">0-4,000 steps</div>
                     </div>
                     
-                    <div class="score-card">
-                        <div class="score-emoji">⚡</div>
+                    <div class="score-card single">
+                        <div class="score-icon-wrapper">
+                            <div class="score-emoji">⚡</div>
+                        </div>
                         <div class="score-value">1</div>
                         <div class="score-type">Single</div>
                         <div class="score-steps">4,001-8,000 steps</div>
                     </div>
                     
-                    <div class="score-card">
-                        <div class="score-emoji">🎯</div>
+                    <div class="score-card boundary">
+                        <div class="score-icon-wrapper">
+                            <div class="score-emoji">🎯</div>
+                        </div>
                         <div class="score-value">4</div>
                         <div class="score-type">Boundary</div>
                         <div class="score-steps">8,001-12,000 steps</div>
                     </div>
                     
-                    <div class="score-card">
-                        <div class="score-emoji">🚀</div>
+                    <div class="score-card sixer">
+                        <div class="score-icon-wrapper">
+                            <div class="score-emoji">🚀</div>
+                        </div>
                         <div class="score-value">6</div>
                         <div class="score-type">Sixer</div>
                         <div class="score-steps">12,001-16,000 steps</div>
@@ -1464,102 +1829,158 @@
             </div>
             
             <div class="teams-container">
-                <div class="team-card">
-                    <div class="team-header">
-                        <div class="team-info">
-                            <div class="team-emoji">🔥</div>
-                            <h3 class="team-name">Team Alpha</h3>
-                            <p class="team-motto">Unstoppable Force</p>
-                        </div>
-                    </div>
-                    <div class="team-members">
-                        <div class="member-list">
-                            <div class="member captain">
-                                <div class="member-avatar">CA</div>
-                                <div class="member-info">
-                                    <div class="member-name">Captain Alpha</div>
-                                    <div class="member-role">Team Captain</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">A1</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player A1</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">A2</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player A2</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">A3</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player A3</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">A4</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player A4</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">🔥</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team Alpha</h3>
+                                <p class="team-motto">Unstoppable Force</p>
                             </div>
                         </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">5</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
                     </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">CA</div>
+                                        <span class="player-name">Captain Alpha</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">A1</div>
+                                        <span class="player-name">Player A1</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">A2</div>
+                                        <span class="player-name">Player A2</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">A3</div>
+                                        <span class="player-name">Player A3</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">A4</div>
+                                        <span class="player-name">Player A4</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 
-                <div class="team-card">
-                    <div class="team-header">
-                        <div class="team-info">
-                            <div class="team-emoji">⚡</div>
-                            <h3 class="team-name">Team Bravo</h3>
-                            <p class="team-motto">Lightning Strikes</p>
-                        </div>
-                    </div>
-                    <div class="team-members">
-                        <div class="member-list">
-                            <div class="member captain">
-                                <div class="member-avatar">CB</div>
-                                <div class="member-info">
-                                    <div class="member-name">Captain Bravo</div>
-                                    <div class="member-role">Team Captain</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">B1</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player B1</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">B2</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player B2</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">B3</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player B3</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
-                            </div>
-                            <div class="member">
-                                <div class="member-avatar">B4</div>
-                                <div class="member-info">
-                                    <div class="member-name">Player B4</div>
-                                    <div class="member-role">Team Member</div>
-                                </div>
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">⚡</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team Bravo</h3>
+                                <p class="team-motto">Lightning Strikes</p>
                             </div>
                         </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">5</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
                     </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">CB</div>
+                                        <span class="player-name">Captain Bravo</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">B1</div>
+                                        <span class="player-name">Player B1</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">B2</div>
+                                        <span class="player-name">Player B2</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">B3</div>
+                                        <span class="player-name">Player B3</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="player-cell">
+                                        <div class="player-avatar">B4</div>
+                                        <span class="player-name">Player B4</span>
+                                    </div>
+                                </td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
