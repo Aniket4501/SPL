@@ -504,57 +504,17 @@
 
         .process-step {
             position: relative;
-            padding: 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
         }
 
-        /* Horizontal connectors */
-        .process-step:nth-child(1)::after,
-        .process-step:nth-child(2)::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: -20%;
-            width: 40%;
-            height: 2px;
-            background: var(--primary-purple);
-            z-index: 1;
-        }
-
-        .process-step:nth-child(4)::after,
-        .process-step:nth-child(5)::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            left: -20%;
-            width: 40%;
-            height: 2px;
-            background: var(--primary-purple);
-            z-index: 1;
-        }
-
-        /* Vertical connector */
-        .process-step:nth-child(3)::before {
-            content: '';
-            position: absolute;
-            bottom: -60%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 120%;
-            background: var(--primary-purple);
-            z-index: 0;
-        }
-
-        /* Remove connectors for first and last items */
-        .process-step:nth-child(3)::after,
-        .process-step:nth-child(6)::after {
-            display: none;
-        }
 
         .process-node {
             width: 100px;
@@ -1287,23 +1247,190 @@
             transform: translateY(-3px);
         }
 
-        /* Responsive */
+        /* Mobile Navigation Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Responsive Breakpoints */
         @media (max-width: 1024px) {
+            .container {
+                padding: 0 20px;
+            }
+
             .scoring-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 32px;
             }
+
+            .process-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .process-step:nth-child(3),
+            .process-step:nth-child(6) {
+                grid-column: 1 / -1;
+                justify-self: center;
+                max-width: 300px;
+            }
+
+            .teams-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .hero h1 {
+                font-size: clamp(36px, 6vw, 72px);
+            }
+
+            .section {
+                padding: 80px 0;
+            }
         }
 
         @media (max-width: 768px) {
+            /* Navigation */
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: white;
+                flex-direction: column;
+                padding: 40px 20px;
+                gap: 24px;
+                align-items: flex-start;
+                transition: right 0.3s ease;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .nav-link {
+                font-size: 18px;
+                width: 100%;
+                padding: 12px 0;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .nav-cta {
+                width: 100%;
+                text-align: center;
+            }
+            /* Hero Section */
+            .hero {
+                padding-top: 100px;
+                padding-bottom: 60px;
+                min-height: auto;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+                margin-bottom: 32px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 16px;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+                margin-top: 48px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 24px;
+            }
+
+            /* About Section */
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-content {
+                padding-right: 0;
+            }
+
+            .about-title {
+                font-size: 28px;
+            }
+
+            .about-text {
+                font-size: 16px;
+            }
+
+            .visual-card {
+                padding: 32px;
+            }
+
+            .visual-number {
+                font-size: 48px;
+            }
+
+            /* Scoring Section */
             .scoring-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
-                padding: 24px 0;
+                gap: 20px;
+                padding: 20px 0;
             }
 
             .score-value {
-                font-size: 48px;
+                font-size: 36px;
             }
 
             .score-type {
@@ -1311,42 +1438,44 @@
             }
 
             .score-steps {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .score-icon-wrapper {
-                width: 80px;
-                height: 80px;
+                width: 70px;
+                height: 70px;
+                margin-bottom: 16px;
             }
 
             .score-emoji {
-                font-size: 40px;
+                font-size: 32px;
             }
-        }
 
-        @media (max-width: 480px) {
-            .scoring-grid {
+            /* Bonus Cards */
+            .bonus-grid {
                 grid-template-columns: 1fr;
-                gap: 32px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
+                gap: 20px;
             }
 
-            .hero-title {
-                font-size: 40px;
+            .bonus-card {
+                padding: 24px;
             }
 
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 48px;
+            /* Section Headers */
+            .section {
+                padding: 60px 0;
             }
 
-            .about-content {
-                padding-right: 0;
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .section-description {
+                font-size: 16px;
             }
 
             .process-workflow {
@@ -1437,6 +1566,33 @@
                 display: none;
             }
 
+            /* Leaderboard */
+            .leaderboard-tabs {
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+
+            .leaderboard-table {
+                font-size: 14px;
+            }
+
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 12px;
+            }
+
+            /* Hide less important columns on mobile */
+            .leaderboard-table th:nth-child(3),
+            .leaderboard-table td:nth-child(3) {
+                display: none;
+            }
+
+            /* Footer */
             .footer-grid {
                 grid-template-columns: 1fr;
                 gap: 32px;
@@ -1445,6 +1601,116 @@
             .footer-bottom {
                 flex-direction: column;
                 gap: 24px;
+                text-align: center;
+            }
+
+            /* CTA Section */
+            .cta-title {
+                font-size: 32px;
+            }
+
+            .cta-text {
+                font-size: 16px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .cta-btn {
+                width: 100%;
+            }
+
+            /* Rewards */
+            .rewards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reward-card {
+                padding: 32px;
+            }
+        }
+
+        /* Small Mobile */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+
+            .nav-logo img {
+                height: 32px;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-badge {
+                font-size: 12px;
+                padding: 6px 16px;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .scoring-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .about-title {
+                font-size: 24px;
+            }
+
+            /* Process cards vertical on very small screens */
+            .process-container {
+                grid-template-columns: 1fr;
+            }
+
+            .process-row {
+                grid-template-columns: 1fr;
+            }
+
+            .process-step:nth-child(3),
+            .process-step:nth-child(6) {
+                max-width: 100%;
+            }
+
+            /* Tables overflow scroll */
+            .leaderboard-content {
+                overflow-x: auto;
+            }
+
+            .team-table {
+                min-width: 300px;
+            }
+
+            .leaderboard-table {
+                min-width: 300px;
+            }
+        }
+
+        /* Landscape phones */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero {
+                padding-top: 80px;
+                padding-bottom: 40px;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .section {
+                padding: 40px 0;
             }
         }
 
@@ -1490,6 +1756,28 @@
     </style>
 </head>
 <body>
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                
+                // Close menu when clicking on a link
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', function() {
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+            }
+        });
+    </script>
     <!-- Navigation -->
     <nav class="nav">
         <div class="container">
@@ -1497,6 +1785,11 @@
                 <div class="nav-logo">
                     <img src="assets/logo.png" alt="Steps Premier League">
                 </div>
+                <button class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
                 <div class="nav-menu">
                     <a href="#about" class="nav-link">About</a>
                     <a href="#how" class="nav-link">How it Works</a>
