@@ -918,6 +918,15 @@
             border-radius: 50%;
             background: currentColor;
         }
+        /* Individual Rankings Styles */
+.leaderboard-content.individual {
+    display: none;
+}
+
+.leaderboard-content.individual.active,
+.leaderboard-content.team.active {
+    display: block;
+}
 
         /* Leaderboard Section */
         .leaderboard-tabs {
@@ -1757,26 +1766,50 @@
 </head>
 <body>
     <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const navMenu = document.querySelector('.nav-menu');
+       // Mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const leaderboardContents = document.querySelectorAll('.leaderboard-content');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const tabType = this.getAttribute('data-tab');
             
-            if (menuToggle) {
-                menuToggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    navMenu.classList.toggle('active');
-                });
-                
-                // Close menu when clicking on a link
-                document.querySelectorAll('.nav-link').forEach(link => {
-                    link.addEventListener('click', function() {
-                        menuToggle.classList.remove('active');
-                        navMenu.classList.remove('active');
-                    });
-                });
+            // Remove active class from all tabs and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            leaderboardContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Show corresponding content
+            const targetContent = document.querySelector(`.leaderboard-content.${tabType}`);
+            if (targetContent) {
+                targetContent.classList.add('active');
             }
         });
+    });
+    
+    // Existing mobile menu code
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    }
+});
     </script>
     <!-- Navigation -->
     <nav class="nav">
@@ -2233,64 +2266,236 @@
         </div>
     </section>
 
-    <!-- Leaderboard Section -->
-    <section id="leaderboard" class="section section-alt">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Rankings</span>
-                <h2 class="section-title">Live Championship Standings</h2>
-                <p class="section-description">
-                    Track your team's progress. Updated daily at 9 PM.
-                </p>
-            </div>
-            
-            <div class="leaderboard-tabs">
-                <button class="tab-btn active">Team Standings</button>
-                <button class="tab-btn">Individual Rankings</button>
-            </div>
-            
-            <div class="leaderboard-content">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Team</th>
-                            <th>Matches</th>
-                            <th>Total Runs</th>
-                            <th>Avg/Player</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="rank-1">
-                            <td>
-                                <div class="rank-cell">
-                                    <span class="rank-number">1</span>
-                                </div>
-                            </td>
-                            <td><strong>Team Alpha</strong></td>
-                            <td>5</td>
-                            <td><strong>245</strong></td>
-                            <td>49.0</td>
-                            <td><span class="team-badge">Leading</span></td>
-                        </tr>
-                        <tr class="rank-2">
-                            <td>
-                                <div class="rank-cell">
-                                    <span class="rank-number">2</span>
-                                </div>
-                            </td>
-                            <td><strong>Team Bravo</strong></td>
-                            <td>5</td>
-                            <td><strong>228</strong></td>
-                            <td>45.6</td>
-                            <td><span class="team-badge">Chasing</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+   <!-- Leaderboard Section -->
+<section id="leaderboard" class="section section-alt">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-label">Rankings</span>
+            <h2 class="section-title">Live Championship Standings</h2>
+            <p class="section-description">
+                Track your team's progress. Updated daily at 9 PM.
+            </p>
         </div>
-    </section>
+        
+        <div class="leaderboard-tabs">
+            <button class="tab-btn active" data-tab="team">Team Standings</button>
+            <button class="tab-btn" data-tab="individual">Individual Rankings</button>
+        </div>
+        
+        <!-- Team Standings Table -->
+        <div class="leaderboard-content team active">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team</th>
+                        <th>Matches</th>
+                        <th>Total Runs</th>
+                        <th>Avg/Player</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">1</span>
+                            </div>
+                        </td>
+                        <td><strong>Team Alpha</strong></td>
+                        <td>5</td>
+                        <td><strong>245</strong></td>
+                        <td>49.0</td>
+                        <td><span class="team-badge">Leading</span></td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">2</span>
+                            </div>
+                        </td>
+                        <td><strong>Team Bravo</strong></td>
+                        <td>5</td>
+                        <td><strong>228</strong></td>
+                        <td>45.6</td>
+                        <td><span class="team-badge">Chasing</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Individual Rankings Table -->
+        <div class="leaderboard-content individual">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Total Runs</th>
+                        <th>Days Played</th>
+                        <th>Performance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="rank-1">
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">1</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">AK</div>
+                                <span class="player-name"><strong>Anil Kumar</strong></span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Alpha</span></td>
+                        <td><strong>65</strong></td>
+                        <td>7</td>
+                        <td><span class="status-indicator ready">Excellent</span></td>
+                    </tr>
+                    <tr class="rank-2">
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">2</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">HS</div>
+                                <span class="player-name"><strong>Harsh Singhania</strong></span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Bravo</span></td>
+                        <td><strong>58</strong></td>
+                        <td>7</td>
+                        <td><span class="status-indicator ready">Excellent</span></td>
+                    </tr>
+                    <tr class="rank-3">
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">3</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">PP</div>
+                                <span class="player-name">Prashansa Pimpalkar</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Alpha</span></td>
+                        <td><strong>52</strong></td>
+                        <td>6</td>
+                        <td><span class="status-indicator ready">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">4</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">ND</div>
+                                <span class="player-name">Nikhil Dubey</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Bravo</span></td>
+                        <td><strong>48</strong></td>
+                        <td>6</td>
+                        <td><span class="status-indicator ready">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">5</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">NK</div>
+                                <span class="player-name">Nameera Khan</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Alpha</span></td>
+                        <td><strong>45</strong></td>
+                        <td>5</td>
+                        <td><span class="status-indicator ready">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">6</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">HB</div>
+                                <span class="player-name">Hina Bhagwani</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Bravo</span></td>
+                        <td><strong>42</strong></td>
+                        <td>6</td>
+                        <td><span class="status-indicator ready">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">7</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">MK</div>
+                                <span class="player-name">Meena Kumari</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Alpha</span></td>
+                        <td><strong>40</strong></td>
+                        <td>5</td>
+                        <td><span class="status-indicator ready">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">8</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">RJ</div>
+                                <span class="player-name">Richa Jain</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Alpha</span></td>
+                        <td><strong>38</strong></td>
+                        <td>5</td>
+                        <td><span class="status-indicator ready">Average</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="rank-cell">
+                                <span class="rank-number">9</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="player-cell">
+                                <div class="player-avatar">AA</div>
+                                <span class="player-name">Aniket Agarwal</span>
+                            </div>
+                        </td>
+                        <td><span class="team-badge">Team Bravo</span></td>
+                        <td><strong>35</strong></td>
+                        <td>4</td>
+                        <td><span class="status-indicator ready">Average</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
     <!-- Rewards Section -->
     <section class="section">
