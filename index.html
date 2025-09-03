@@ -1041,6 +1041,99 @@
         }
 
         /* Commentator's Box Section */
+        .day-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .day-btn {
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .day-btn:not(:disabled):hover {
+            border-color: var(--primary-purple);
+            color: var(--primary-purple);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .day-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .day-btn.completed {
+            background: var(--bg-secondary);
+            border-color: var(--primary-mint);
+            color: var(--primary-mint);
+        }
+
+        .day-btn.current {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-mint));
+            color: white;
+            border-color: var(--primary-purple);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(124, 58, 237, 0);
+            }
+        }
+
+        .day-number {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .day-status {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .day-btn.current .day-status {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 100px;
+            animation: livePulse 2s infinite;
+        }
+
+        .power-play-icon {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent-yellow);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
         .commentator-box {
             background: white;
             border-radius: var(--radius-lg);
@@ -1146,12 +1239,76 @@
             flex-shrink: 0;
         }
 
+        .score-badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .score-badge.dot {
+            background: linear-gradient(135deg, #FFE5E5, #FFCCCC);
+            color: #DC2626;
+            border: 2px solid #FEE2E2;
+        }
+
+        .score-badge.single {
+            background: linear-gradient(135deg, #FFF7E5, #FFEDD5);
+            color: #F59E0B;
+            border: 2px solid #FED7AA;
+        }
+
+        .score-badge.boundary {
+            background: linear-gradient(135deg, #E5F3FF, #DBEAFE);
+            color: #3B82F6;
+            border: 2px solid #BFDBFE;
+        }
+
+        .score-badge.six {
+            background: linear-gradient(135deg, #F0E5FF, #EDE9FE);
+            color: #7C3AED;
+            border: 2px solid #DDD6FE;
+        }
+
+        .score-badge.bonus {
+            background: linear-gradient(135deg, var(--accent-yellow), #FDE047);
+            color: var(--text-primary);
+            border: 2px solid #FEF3C7;
+            font-size: 16px;
+        }
+
+        .score-badge.update {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            color: #065F46;
+            border: 2px solid #6EE7B7;
+            font-size: 16px;
+        }
+
         .commentary-text {
             flex: 1;
             color: var(--text-primary);
             font-size: 15px;
             line-height: 1.6;
             margin: 0;
+        }
+
+        .commentary-text strong {
+            color: var(--primary-purple);
+            font-weight: 700;
+        }
+
+        .commentary-text .highlight {
+            background: linear-gradient(135deg, var(--accent-yellow), #FDE047);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         /* Rewards Section */
@@ -1748,6 +1905,26 @@
             }
 
             /* Commentator's Box */
+            .day-selector {
+                gap: 8px;
+            }
+
+            .day-btn {
+                padding: 8px 12px;
+                min-width: 80px;
+                font-size: 12px;
+            }
+
+            .day-number {
+                font-size: 12px;
+            }
+
+            .power-play-icon {
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
+
             .commentator-header {
                 padding: 16px 20px;
                 flex-wrap: wrap;
@@ -1766,6 +1943,12 @@
             }
 
             .commentary-text {
+                font-size: 14px;
+            }
+
+            .score-badge {
+                width: 30px;
+                height: 30px;
                 font-size: 14px;
             }
 
@@ -2644,10 +2827,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 </p>
             </div>
             
+            <!-- Day Selection Buttons -->
+            <div class="day-selector">
+                <button class="day-btn completed" data-day="1">
+                    <span class="day-number">Day 1</span>
+                    <span class="day-status">✓</span>
+                </button>
+                <button class="day-btn current" data-day="2">
+                    <span class="day-number">Day 2</span>
+                    <span class="day-status">LIVE</span>
+                </button>
+                <button class="day-btn power-play" data-day="3" disabled>
+                    <span class="day-number">Day 3</span>
+                    <span class="power-play-icon">⚡</span>
+                </button>
+                <button class="day-btn" data-day="4" disabled>
+                    <span class="day-number">Day 4</span>
+                </button>
+                <button class="day-btn" data-day="5" disabled>
+                    <span class="day-number">Day 5</span>
+                </button>
+                <button class="day-btn" data-day="6" disabled>
+                    <span class="day-number">Day 6</span>
+                </button>
+                <button class="day-btn" data-day="7" disabled>
+                    <span class="day-number">Day 7</span>
+                </button>
+            </div>
+            
             <div class="commentator-box">
                 <div class="commentator-header">
                     <span class="commentator-icon">🎙️</span>
-                    <h3 class="commentator-title">Live Commentary</h3>
+                    <h3 class="commentator-title">Live Commentary - Day 2</h3>
                     <span class="live-indicator">
                         <span class="live-dot"></span>
                         LIVE
@@ -2655,20 +2866,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="commentator-content">
                     <div class="commentary-item">
-                        <span class="commentary-emoji">🏏</span>
-                        <p class="commentary-text">Rahul hits a massive SIX with 9,200 steps!</p>
+                        <span class="score-badge six">6</span>
+                        <p class="commentary-text"><strong>Rahul</strong> hits a massive SIX with <span class="highlight">12,200 steps</span>! What a performance!</p>
                     </div>
                     <div class="commentary-item">
-                        <span class="commentary-emoji">🏏</span>
-                        <p class="commentary-text">Meena plays a steady knock with 6,800 steps.</p>
+                        <span class="score-badge single">1</span>
+                        <p class="commentary-text"><strong>Meena</strong> plays a steady knock with <span class="highlight">6,800 steps</span>.</p>
                     </div>
                     <div class="commentary-item">
-                        <span class="commentary-emoji">⚡</span>
-                        <p class="commentary-text">Bonus Runs! Suresh and Asha maintained a 3-day streak and earned +10 runs each.</p>
+                        <span class="score-badge boundary">4</span>
+                        <p class="commentary-text"><strong>Prashansa</strong> smashes a boundary! <span class="highlight">10,500 steps</span> and counting!</p>
                     </div>
                     <div class="commentary-item">
-                        <span class="commentary-emoji">⏱️</span>
-                        <p class="commentary-text">Leaderboard will be updated based on yesterday's steps. Stay tuned!</p>
+                        <span class="score-badge dot">0</span>
+                        <p class="commentary-text"><strong>Nikhil</strong> had a quiet day with <span class="highlight">3,200 steps</span>. Room for improvement tomorrow!</p>
+                    </div>
+                    <div class="commentary-item">
+                        <span class="score-badge bonus">⚡</span>
+                        <p class="commentary-text"><strong>Bonus Alert!</strong> <strong>Anil</strong> and <strong>Harsh</strong> maintained a <span class="highlight">3-day streak</span> earning <strong>+10 bonus runs</strong> each!</p>
+                    </div>
+                    <div class="commentary-item">
+                        <span class="score-badge update">📊</span>
+                        <p class="commentary-text">Team Alpha leads by <span class="highlight">17 runs</span>! The competition is heating up!</p>
                     </div>
                 </div>
             </div>
