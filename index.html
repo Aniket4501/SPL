@@ -1040,6 +1040,120 @@
             font-weight: 600;
         }
 
+        /* Commentator's Box Section */
+        .commentator-box {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .commentator-header {
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-mint));
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+        }
+
+        .commentator-icon {
+            font-size: 28px;
+        }
+
+        .commentator-title {
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 100px;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #FF0000;
+            border-radius: 50%;
+            animation: livePulse 2s infinite;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        @keyframes livePulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.2);
+            }
+        }
+
+        .commentator-content {
+            padding: 24px 32px;
+            max-height: 250px;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+        }
+
+        .commentator-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .commentator-content::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+
+        .commentator-content::-webkit-scrollbar-thumb {
+            background: var(--primary-purple);
+            border-radius: 3px;
+            opacity: 0.5;
+        }
+
+        .commentator-content::-webkit-scrollbar-thumb:hover {
+            opacity: 1;
+        }
+
+        .commentary-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-light);
+            align-items: flex-start;
+        }
+
+        .commentary-item:last-child {
+            border-bottom: none;
+        }
+
+        .commentary-emoji {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .commentary-text {
+            flex: 1;
+            color: var(--text-primary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
         /* Rewards Section */
         .rewards-grid {
             display: grid;
@@ -1631,6 +1745,28 @@
 
             .cta-btn {
                 width: 100%;
+            }
+
+            /* Commentator's Box */
+            .commentator-header {
+                padding: 16px 20px;
+                flex-wrap: wrap;
+            }
+
+            .commentator-title {
+                font-size: 18px;
+            }
+
+            .commentator-content {
+                padding: 20px;
+            }
+
+            .commentary-item {
+                padding: 12px 0;
+            }
+
+            .commentary-text {
+                font-size: 14px;
             }
 
             /* Rewards */
@@ -2497,8 +2633,50 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section>
 
+    <!-- Commentator's Box Section -->
+    <section class="section commentator-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Live Updates</span>
+                <h2 class="section-title">Commentator's Box</h2>
+                <p class="section-description">
+                    Real-time match updates and highlights from the field
+                </p>
+            </div>
+            
+            <div class="commentator-box">
+                <div class="commentator-header">
+                    <span class="commentator-icon">🎙️</span>
+                    <h3 class="commentator-title">Live Commentary</h3>
+                    <span class="live-indicator">
+                        <span class="live-dot"></span>
+                        LIVE
+                    </span>
+                </div>
+                <div class="commentator-content">
+                    <div class="commentary-item">
+                        <span class="commentary-emoji">🏏</span>
+                        <p class="commentary-text">Rahul hits a massive SIX with 9,200 steps!</p>
+                    </div>
+                    <div class="commentary-item">
+                        <span class="commentary-emoji">🏏</span>
+                        <p class="commentary-text">Meena plays a steady knock with 6,800 steps.</p>
+                    </div>
+                    <div class="commentary-item">
+                        <span class="commentary-emoji">⚡</span>
+                        <p class="commentary-text">Bonus Runs! Suresh and Asha maintained a 3-day streak and earned +10 runs each.</p>
+                    </div>
+                    <div class="commentary-item">
+                        <span class="commentary-emoji">⏱️</span>
+                        <p class="commentary-text">Leaderboard will be updated based on yesterday's steps. Stay tuned!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Rewards Section -->
-    <section class="section">
+    <section class="section section-alt">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Rewards</span>
