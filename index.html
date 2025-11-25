@@ -743,8 +743,8 @@
         /* Teams Section */
         .teams-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 24px;
         }
 
         .team-table-card {
@@ -929,6 +929,44 @@
 }
 
         /* Leaderboard Section */
+        .leaderboard-day-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .leaderboard-day-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-day-btn:hover {
+            border-color: var(--primary-purple);
+            color: var(--primary-purple);
+        }
+
+        .leaderboard-day-btn.active {
+            background: var(--primary-purple);
+            color: white;
+            border-color: var(--primary-purple);
+        }
+
+        .day-data {
+            display: none;
+        }
+
+        .day-data.active {
+            display: block;
+        }
+
         .leaderboard-tabs {
             display: flex;
             gap: 16px;
@@ -1309,6 +1347,14 @@
             border-radius: 4px;
             font-weight: 600;
             color: var(--text-primary);
+        }
+
+        .commentary-day {
+            display: none;
+        }
+
+        .commentary-day.active {
+            display: block;
         }
 
         /* Rewards Section */
@@ -2085,23 +2131,22 @@
 </head>
 <body>
     <script>
-       // Mobile menu toggle
 document.addEventListener('DOMContentLoaded', function() {
-    // Tab switching functionality
+    // Tab switching functionality (Team Standings / Individual Rankings)
     const tabButtons = document.querySelectorAll('.tab-btn');
     const leaderboardContents = document.querySelectorAll('.leaderboard-content');
-    
+
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
             const tabType = this.getAttribute('data-tab');
-            
+
             // Remove active class from all tabs and contents
             tabButtons.forEach(btn => btn.classList.remove('active'));
             leaderboardContents.forEach(content => content.classList.remove('active'));
-            
+
             // Add active class to clicked tab
             this.classList.add('active');
-            
+
             // Show corresponding content
             const targetContent = document.querySelector(`.leaderboard-content.${tabType}`);
             if (targetContent) {
@@ -2109,17 +2154,67 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
-    // Existing mobile menu code
+
+    // Leaderboard Day Filter functionality
+    const leaderboardDayBtns = document.querySelectorAll('.leaderboard-day-btn');
+
+    leaderboardDayBtns.forEach(button => {
+        button.addEventListener('click', function() {
+            const selectedDay = this.getAttribute('data-leaderboard-day');
+
+            // Remove active class from all day buttons
+            leaderboardDayBtns.forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Update day data visibility in both Team and Individual tables
+            document.querySelectorAll('.leaderboard-content .day-data').forEach(dayData => {
+                dayData.classList.remove('active');
+            });
+
+            // Show selected day data in both tabs
+            document.querySelectorAll(`.leaderboard-content .day-data.day-${selectedDay}`).forEach(dayData => {
+                dayData.classList.add('active');
+            });
+        });
+    });
+
+    // Commentator's Box Day Filter functionality
+    const commentaryDayBtns = document.querySelectorAll('.day-selector .day-btn');
+
+    commentaryDayBtns.forEach(button => {
+        button.addEventListener('click', function() {
+            const selectedDay = this.getAttribute('data-day');
+
+            // Remove active class from all day buttons
+            commentaryDayBtns.forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            // Hide all commentary days and show selected
+            document.querySelectorAll('.commentary-day').forEach(day => {
+                day.classList.remove('active');
+            });
+
+            const targetCommentary = document.querySelector(`.commentary-day.day-${selectedDay}`);
+            if (targetCommentary) {
+                targetCommentary.classList.add('active');
+            }
+        });
+    });
+
+    // Mobile menu toggle
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const navMenu = document.querySelector('.nav-menu');
-    
+
     if (menuToggle) {
         menuToggle.addEventListener('click', function() {
             this.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
-        
+
         // Close menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function() {
@@ -2423,22 +2518,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 <span class="section-label">Teams</span>
                 <h2 class="section-title">Championship Squads</h2>
                 <p class="section-description">
-                    Two elite teams, one trophy. Meet the competitors vying for SPL glory.
+                    Eight elite teams, one trophy. Meet the competitors vying for SPL glory.
                 </p>
             </div>
-            
+
             <div class="teams-container">
+                <!-- Team 1 -->
                 <div class="team-table-card">
                     <div class="team-table-header">
                         <div class="team-title-group">
                             <div class="team-icon">🔥</div>
                             <div class="team-title-text">
-                                <h3 class="team-name">Team Alpha</h3>
-                                <p class="team-motto">Human Resources</p>
+                                <h3 class="team-name">Team 1</h3>
+                                <p class="team-motto">Department 1</p>
                             </div>
                         </div>
                         <div class="team-stats">
-                            <div class="team-stat-value">8</div>
+                            <div class="team-stat-value">7</div>
                             <div class="team-stat-label">Players</div>
                         </div>
                     </div>
@@ -2450,102 +2546,58 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <th>Status</th>
                             </tr>
                         </thead>
-                       <tbody>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">NW</div>
-                <span class="player-name">Neha Wassan</span>
-            </div>
-        </td>
-        <td><span class="role-badge captain">Captain</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">AK</div>
-                <span class="player-name">Amanpreet Kaur</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">SS</div>
-                <span class="player-name">Sudeep Sharma</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">JA</div>
-                <span class="player-name">Jikko Mohammad Ansari</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">PT</div>
-                <span class="player-name">Puja Taragi</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">DS</div>
-                <span class="player-name">Dinesh Sharma</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">DR</div>
-                <span class="player-name">Deepak Rathore</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-</tbody>
- <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">R</div>
-                <span class="player-name">Ritika</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
-                
+
+                <!-- Team 2 -->
                 <div class="team-table-card">
                     <div class="team-table-header">
                         <div class="team-title-group">
                             <div class="team-icon">⚡</div>
                             <div class="team-title-text">
-                                <h3 class="team-name">Team Bravo</h3>
-                                <p class="team-motto">Finance</p>
+                                <h3 class="team-name">Team 2</h3>
+                                <p class="team-motto">Department 2</p>
                             </div>
                         </div>
                         <div class="team-stats">
-                            <div class="team-stat-value">8</div>
+                            <div class="team-stat-value">7</div>
                             <div class="team-stat-label">Players</div>
                         </div>
                     </div>
@@ -2557,89 +2609,421 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <th>Status</th>
                             </tr>
                         </thead>
-                       <tbody>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">MK</div>
-                <span class="player-name">Manoj Kumar</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">AT</div>
-                <span class="player-name">Atul Tyagi</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">DA</div>
-                <span class="player-name">Deepak Anand</span>
-            </div>
-        </td>
-        <td><span class="role-badge captain">Captain</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">AD</div>
-                <span class="player-name">Akash Dwivedi</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">CS</div>
-                <span class="player-name">Chandrashekhar Sahu</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">AA</div>
-                <span class="player-name">Abhishek Anand</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-    <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">SB</div>
-                <span class="player-name">Samreen Bano</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>
-      <tr>
-        <td>
-            <div class="player-cell">
-                <div class="player-avatar">ST</div>
-                <span class="player-name">Samiksha Thusoo</span>
-            </div>
-        </td>
-        <td><span class="role-badge">Member</span></td>
-        <td><span class="status-indicator ready">Ready</span></td>
-    </tr>         
-</tbody>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <!-- Team 3 -->
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">🌟</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team 3</h3>
+                                <p class="team-motto">Department 3</p>
+                            </div>
+                        </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">7</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
+                    </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Team 4 -->
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">🎯</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team 4</h3>
+                                <p class="team-motto">Department 4</p>
+                            </div>
+                        </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">7</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
+                    </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Team 5 -->
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">🚀</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team 5</h3>
+                                <p class="team-motto">Department 5</p>
+                            </div>
+                        </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">7</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
+                    </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Team 6 -->
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">💎</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team 6</h3>
+                                <p class="team-motto">Department 6</p>
+                            </div>
+                        </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">7</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
+                    </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Team 7 -->
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">🏆</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team 7</h3>
+                                <p class="team-motto">Department 7</p>
+                            </div>
+                        </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">7</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
+                    </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Team 8 -->
+                <div class="team-table-card">
+                    <div class="team-table-header">
+                        <div class="team-title-group">
+                            <div class="team-icon">🎖️</div>
+                            <div class="team-title-text">
+                                <h3 class="team-name">Team 8</h3>
+                                <p class="team-motto">Department 8</p>
+                            </div>
+                        </div>
+                        <div class="team-stats">
+                            <div class="team-stat-value">7</div>
+                            <div class="team-stat-label">Players</div>
+                        </div>
+                    </div>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Player</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td>
+                                <td><span class="role-badge captain">Captain</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P6</div><span class="player-name">Player 6</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                            <tr>
+                                <td><div class="player-cell"><div class="player-avatar">P7</div><span class="player-name">Player 7</span></div></td>
+                                <td><span class="role-badge">Member</span></td>
+                                <td><span class="status-indicator ready">Ready</span></td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -2656,290 +3040,303 @@ document.addEventListener('DOMContentLoaded', function() {
                 Track your team's progress. Updated daily at 11 AM.
             </p>
         </div>
-        
+
+        <!-- Day Filter for Leaderboard -->
+        <div class="leaderboard-day-selector">
+            <button class="leaderboard-day-btn active" data-leaderboard-day="1">Day 1</button>
+            <button class="leaderboard-day-btn" data-leaderboard-day="2">Day 2</button>
+            <button class="leaderboard-day-btn" data-leaderboard-day="3">Day 3</button>
+            <button class="leaderboard-day-btn" data-leaderboard-day="4">Day 4</button>
+            <button class="leaderboard-day-btn" data-leaderboard-day="5">Day 5</button>
+        </div>
+
         <div class="leaderboard-tabs">
             <button class="tab-btn active" data-tab="team">Team Standings</button>
             <button class="tab-btn" data-tab="individual">Individual Rankings</button>
         </div>
-        
+
         <!-- Team Standings Table -->
         <div class="leaderboard-content team active">
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Team</th>
-                        <th>Overs</th>
-                        <th>Total Runs</th>
-                        <th>Avg/Player</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-               <tbody>
-    <tr class="rank-1">
-        <td>
-            <div class="rank-cell">
-                <span class="rank-number">1</span>
+            <!-- Day 1 Team Data -->
+            <div class="day-data day-1 active">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Overs</th>
+                            <th>Total Runs</th>
+                            <th>Avg/Player</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td><div class="rank-cell"><span class="rank-number">1</span></div></td>
+                            <td><strong>Team 1</strong></td>
+                            <td>1</td>
+                            <td><strong>50</strong></td>
+                            <td>7.1</td>
+                            <td><span class="team-badge">Leading</span></td>
+                        </tr>
+                        <tr class="rank-2">
+                            <td><div class="rank-cell"><span class="rank-number">2</span></div></td>
+                            <td><strong>Team 2</strong></td>
+                            <td>1</td>
+                            <td><strong>45</strong></td>
+                            <td>6.4</td>
+                            <td><span class="team-badge">Chasing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </td>
-        <td><strong>Team Bravo</strong></td>
-        <td>7</td>
-        <td><strong>479</strong></td>
-        <td>54.3</td>
-        <td><span class="team-badge">Leading</span></td>
-    </tr>
-    <tr class="rank-2">
-        <td>
-            <div class="rank-cell">
-                <span class="rank-number">2</span>
+            <!-- Day 2 Team Data -->
+            <div class="day-data day-2">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Overs</th>
+                            <th>Total Runs</th>
+                            <th>Avg/Player</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td><div class="rank-cell"><span class="rank-number">1</span></div></td>
+                            <td><strong>Team 2</strong></td>
+                            <td>2</td>
+                            <td><strong>98</strong></td>
+                            <td>7.0</td>
+                            <td><span class="team-badge">Leading</span></td>
+                        </tr>
+                        <tr class="rank-2">
+                            <td><div class="rank-cell"><span class="rank-number">2</span></div></td>
+                            <td><strong>Team 1</strong></td>
+                            <td>2</td>
+                            <td><strong>92</strong></td>
+                            <td>6.6</td>
+                            <td><span class="team-badge">Chasing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </td>
-        <td><strong>Team Alpha</strong></td>
-        <td>7</td>
-        <td><strong>364</strong></td>
-        <td>50.5</td>
-        <td><span class="team-badge">Chasing</span></td>
-    </tr>
-</tbody>
-
-            </table>
+            <!-- Day 3 Team Data -->
+            <div class="day-data day-3">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Overs</th>
+                            <th>Total Runs</th>
+                            <th>Avg/Player</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td><div class="rank-cell"><span class="rank-number">1</span></div></td>
+                            <td><strong>Team 1</strong></td>
+                            <td>3</td>
+                            <td><strong>155</strong></td>
+                            <td>7.4</td>
+                            <td><span class="team-badge">Leading</span></td>
+                        </tr>
+                        <tr class="rank-2">
+                            <td><div class="rank-cell"><span class="rank-number">2</span></div></td>
+                            <td><strong>Team 2</strong></td>
+                            <td>3</td>
+                            <td><strong>148</strong></td>
+                            <td>7.0</td>
+                            <td><span class="team-badge">Chasing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Day 4 Team Data -->
+            <div class="day-data day-4">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Overs</th>
+                            <th>Total Runs</th>
+                            <th>Avg/Player</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td><div class="rank-cell"><span class="rank-number">1</span></div></td>
+                            <td><strong>Team 2</strong></td>
+                            <td>4</td>
+                            <td><strong>210</strong></td>
+                            <td>7.5</td>
+                            <td><span class="team-badge">Leading</span></td>
+                        </tr>
+                        <tr class="rank-2">
+                            <td><div class="rank-cell"><span class="rank-number">2</span></div></td>
+                            <td><strong>Team 1</strong></td>
+                            <td>4</td>
+                            <td><strong>205</strong></td>
+                            <td>7.3</td>
+                            <td><span class="team-badge">Chasing</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Day 5 Team Data -->
+            <div class="day-data day-5">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Team</th>
+                            <th>Overs</th>
+                            <th>Total Runs</th>
+                            <th>Avg/Player</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="rank-1">
+                            <td><div class="rank-cell"><span class="rank-number">1</span></div></td>
+                            <td><strong>Team 1</strong></td>
+                            <td>5</td>
+                            <td><strong>280</strong></td>
+                            <td>8.0</td>
+                            <td><span class="team-badge">Champion</span></td>
+                        </tr>
+                        <tr class="rank-2">
+                            <td><div class="rank-cell"><span class="rank-number">2</span></div></td>
+                            <td><strong>Team 2</strong></td>
+                            <td>5</td>
+                            <td><strong>265</strong></td>
+                            <td>7.6</td>
+                            <td><span class="team-badge">Runner-up</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        
+
         <!-- Individual Rankings Table -->
-       <!-- Individual Rankings Table (Pre-Challenge State) -->
-<div class="leaderboard-content individual">
-    
-    <p class="challenge-status" style="text-align:center; font-weight:bold; margin:10px 0;">
-       Note: Rank is based on Total Steps
-    </p>
-    <table class="leaderboard-table">
-    <thead>
-        <tr>
-            <th>Rank</th>
-            <th>Player</th>
-            <th>Team</th>
-            <th>Total Runs</th>
-            <th>Days Played</th>
-            <th>total Steps</th>
-        </tr>
-    </thead>
-<tbody>
-  <tr>
-    <td>1</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">JA</div>
-        <span class="player-name">Jikko Mohammad Ansari</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>83</td>
-    <td>7</td>
-    <td>250,451</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">DA</div>
-        <span class="player-name">Deepak Anand Singh</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>53</td>
-    <td>7</td>
-    <td>160,265</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">AD</div>
-        <span class="player-name">Akash Dwivedi</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>81</td>
-    <td>7</td>
-    <td>120,847</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">SB</div>
-        <span class="player-name">Samreen Bano</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>53</td>
-    <td>7</td>
-    <td>118,609</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">DR</div>
-        <span class="player-name">Deepak Singh Rathore</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>51</td>
-    <td>7</td>
-    <td>109,585</td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">AT</div>
-        <span class="player-name">Atul Tyagi</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>81</td>
-    <td>7</td>
-    <td>94,481</td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">CS</div>
-        <span class="player-name">Chandrashekhar Sahu</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>42</td>
-    <td>7</td>
-    <td>91,979</td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">DS</div>
-        <span class="player-name">Dinesh Sharma</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>47</td>
-    <td>7</td>
-    <td>80,890</td>
-  </tr>
-  <tr>
-    <td>9</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">PT</div>
-        <span class="player-name">Puja Taragi</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>75</td>
-    <td>7</td>
-    <td>79,085</td>
-  </tr>
-  <tr>
-    <td>10</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">AK</div>
-        <span class="player-name">Amanpreet Kaur</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>43</td>
-    <td>7</td>
-    <td>76,555</td>
-  </tr>
-  <tr>
-    <td>11</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">SS</div>
-        <span class="player-name">Sudeep Sharma</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>41</td>
-    <td>7</td>
-    <td>74,983</td>
-  </tr>
-  <tr>
-    <td>12</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">MK</div>
-        <span class="player-name">Manoj Kumar</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>48</td>
-    <td>7</td>
-    <td>72,814</td>
-  </tr>
-  <tr>
-    <td>13</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">R</div>
-        <span class="player-name">Ritika</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>41</td>
-    <td>7</td>
-    <td>72,137</td>
-  </tr>
-  <tr>
-    <td>14</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">ST</div>
-        <span class="player-name">Samiksha Thusoo</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>46</td>
-    <td>7</td>
-    <td>63,999</td>
-  </tr>
-  <tr>
-    <td>15</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">AA</div>
-        <span class="player-name">Abhishek Anand</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Bravo</span></td>
-    <td>42</td>
-    <td>7</td>
-    <td>59,791</td>
-  </tr>
-  <tr>
-    <td>16</td>
-    <td>
-      <div class="player-cell">
-        <div class="player-avatar">NW</div>
-        <span class="player-name">Neha Wassan</span>
-      </div>
-    </td>
-    <td><span class="team-badge">Team Alpha</span></td>
-    <td>16</td>
-    <td>7</td>
-    <td>56,103</td>
-  </tr>
-</tbody>
-
-
-
-
-</table>
-
-</div>
+        <div class="leaderboard-content individual">
+            <p class="challenge-status" style="text-align:center; font-weight:bold; margin:10px 0;">
+                Note: Rank is based on Total Steps
+            </p>
+            <!-- Day 1 Individual Data -->
+            <div class="day-data day-1 active">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Runs</th>
+                            <th>Steps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td><td><span class="team-badge">Team 1</span></td><td>6</td><td>15,000</td></tr>
+                        <tr><td>2</td><td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td><td><span class="team-badge">Team 2</span></td><td>6</td><td>14,500</td></tr>
+                        <tr><td>3</td><td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td><td><span class="team-badge">Team 1</span></td><td>4</td><td>10,000</td></tr>
+                        <tr><td>4</td><td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td><td><span class="team-badge">Team 2</span></td><td>4</td><td>9,500</td></tr>
+                        <tr><td>5</td><td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td><td><span class="team-badge">Team 1</span></td><td>1</td><td>6,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Day 2 Individual Data -->
+            <div class="day-data day-2">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Runs</th>
+                            <th>Steps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td><td><span class="team-badge">Team 2</span></td><td>12</td><td>30,000</td></tr>
+                        <tr><td>2</td><td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td><td><span class="team-badge">Team 1</span></td><td>10</td><td>28,000</td></tr>
+                        <tr><td>3</td><td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td><td><span class="team-badge">Team 2</span></td><td>8</td><td>20,000</td></tr>
+                        <tr><td>4</td><td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td><td><span class="team-badge">Team 1</span></td><td>8</td><td>19,000</td></tr>
+                        <tr><td>5</td><td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td><td><span class="team-badge">Team 1</span></td><td>5</td><td>12,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Day 3 Individual Data -->
+            <div class="day-data day-3">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Runs</th>
+                            <th>Steps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td><td><span class="team-badge">Team 1</span></td><td>18</td><td>45,000</td></tr>
+                        <tr><td>2</td><td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td><td><span class="team-badge">Team 2</span></td><td>16</td><td>42,000</td></tr>
+                        <tr><td>3</td><td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td><td><span class="team-badge">Team 1</span></td><td>14</td><td>35,000</td></tr>
+                        <tr><td>4</td><td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td><td><span class="team-badge">Team 2</span></td><td>12</td><td>30,000</td></tr>
+                        <tr><td>5</td><td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td><td><span class="team-badge">Team 1</span></td><td>10</td><td>25,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Day 4 Individual Data -->
+            <div class="day-data day-4">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Runs</th>
+                            <th>Steps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td><td><span class="team-badge">Team 2</span></td><td>24</td><td>60,000</td></tr>
+                        <tr><td>2</td><td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td><td><span class="team-badge">Team 1</span></td><td>22</td><td>55,000</td></tr>
+                        <tr><td>3</td><td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td><td><span class="team-badge">Team 2</span></td><td>18</td><td>45,000</td></tr>
+                        <tr><td>4</td><td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td><td><span class="team-badge">Team 1</span></td><td>16</td><td>40,000</td></tr>
+                        <tr><td>5</td><td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td><td><span class="team-badge">Team 1</span></td><td>14</td><td>35,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Day 5 Individual Data -->
+            <div class="day-data day-5">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Runs</th>
+                            <th>Steps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td><div class="player-cell"><div class="player-avatar">P1</div><span class="player-name">Player 1</span></div></td><td><span class="team-badge">Team 1</span></td><td>30</td><td>75,000</td></tr>
+                        <tr><td>2</td><td><div class="player-cell"><div class="player-avatar">P2</div><span class="player-name">Player 2</span></div></td><td><span class="team-badge">Team 2</span></td><td>28</td><td>70,000</td></tr>
+                        <tr><td>3</td><td><div class="player-cell"><div class="player-avatar">P3</div><span class="player-name">Player 3</span></div></td><td><span class="team-badge">Team 1</span></td><td>22</td><td>55,000</td></tr>
+                        <tr><td>4</td><td><div class="player-cell"><div class="player-avatar">P4</div><span class="player-name">Player 4</span></div></td><td><span class="team-badge">Team 2</span></td><td>20</td><td>50,000</td></tr>
+                        <tr><td>5</td><td><div class="player-cell"><div class="player-avatar">P5</div><span class="player-name">Player 5</span></div></td><td><span class="team-badge">Team 1</span></td><td>18</td><td>45,000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 
@@ -2953,35 +3350,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     Real-time match updates and highlights from the field
                 </p>
             </div>
-            
+
             <!-- Day Selection Buttons -->
             <div class="day-selector">
-                <button class="day-btn" data-day="1">
+                <button class="day-btn active" data-day="1">
                     <span class="day-number">Day 1</span>
-                    
                 </button>
                 <button class="day-btn" data-day="2">
                     <span class="day-number">Day 2</span>
-                
                 </button>
-                <button class="day-btn power-play" data-day="3" disabled>
+                <button class="day-btn power-play" data-day="3">
                     <span class="day-number">Day 3</span>
                     <span class="power-play-icon">⚡</span>
                 </button>
-                <button class="day-btn" data-day="4" disabled>
+                <button class="day-btn" data-day="4">
                     <span class="day-number">Day 4</span>
                 </button>
-                <button class="day-btn" data-day="5" disabled>
+                <button class="day-btn" data-day="5">
                     <span class="day-number">Day 5</span>
                 </button>
-                <button class="day-btn" data-day="6" disabled>
-                    <span class="day-number">Day 6</span>
-                </button>
-                <button class="day-btn" data-day="7" disabled>
-                    <span class="day-number">Day 7</span>
-                </button>
             </div>
-            
+
             <div class="commentator-box">
                 <div class="commentator-header">
                     <span class="commentator-icon">🎙️</span>
@@ -2991,30 +3380,117 @@ document.addEventListener('DOMContentLoaded', function() {
                         LIVE
                     </span>
                 </div>
-               <div class="commentator-content">
-  <div class="commentary-item">
-    <span class="score-badge update">📢</span>
-    <p class="commentary-text">
-        🏆 <strong>Team Bravo lifts the SPL Championship Trophy!</strong> 
-        From Day 1 to the grand finale, Bravo walked strong, played smart, and kept the scoreboard ticking. 
-        With <span class="highlight">479 total runs</span>, they claim the first-ever SPL title!
-    </p>
-</div>
+                <div class="commentator-content">
+                    <!-- Day 1 Commentary -->
+                    <div class="commentary-day day-1 active">
+                        <div class="commentary-item">
+                            <span class="score-badge update">📢</span>
+                            <p class="commentary-text">
+                                <strong>Day 1 kicks off!</strong> The SPL Championship has officially begun. All teams are ready and raring to go!
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🏏</span>
+                            <p class="commentary-text">
+                                <strong>Team 1 takes an early lead</strong> with impressive step counts across all players. Great start to the championship!
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🔥</span>
+                            <p class="commentary-text">
+                                Strong performances from multiple players as they set the pace for the week ahead.
+                            </p>
+                        </div>
+                    </div>
 
-<div class="commentary-item">
-    <span class="score-badge">🏏</span>
-    <p class="commentary-text">
-        🎖️<strong>Man of the League – Jikko Mohammad Ansari (Team Alpha)</strong> 
-       With a massive 83 runs and over 250k steps, Jikko powered through every single day and emerged as the undisputed run machine of SPL.
-    </p>
-</div>
+                    <!-- Day 2 Commentary -->
+                    <div class="commentary-day day-2">
+                        <div class="commentary-item">
+                            <span class="score-badge update">📢</span>
+                            <p class="commentary-text">
+                                <strong>Day 2 update!</strong> The competition heats up as teams battle for the top spot.
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🏏</span>
+                            <p class="commentary-text">
+                                <strong>Team 2 makes a strong comeback!</strong> They've overtaken Team 1 with consistent performances.
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🔥</span>
+                            <p class="commentary-text">
+                                Player 2 emerges as the top performer of Day 2 with outstanding step counts!
+                            </p>
+                        </div>
+                    </div>
 
-<div class="commentary-item">
-    <span class="score-badge">🔥</span>
-    <p class="commentary-text">
-        <strong>Team Alpha gave a fierce fight</strong> all the way till the end, finishing with a solid <span class="highlight">364 runs</span>
-    </p>
-</div>
+                    <!-- Day 3 Commentary (Power Play) -->
+                    <div class="commentary-day day-3">
+                        <div class="commentary-item">
+                            <span class="score-badge update">⚡</span>
+                            <p class="commentary-text">
+                                <strong>POWER PLAY DAY!</strong> All runs are doubled today. This is where champions are made!
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🏏</span>
+                            <p class="commentary-text">
+                                <strong>Team 1 capitalizes on Power Play!</strong> They've surged ahead with <span class="highlight">double points</span> boosting their score.
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🔥</span>
+                            <p class="commentary-text">
+                                Incredible effort from all teams as everyone pushes their limits on this crucial day!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Day 4 Commentary -->
+                    <div class="commentary-day day-4">
+                        <div class="commentary-item">
+                            <span class="score-badge update">📢</span>
+                            <p class="commentary-text">
+                                <strong>Day 4 - The race tightens!</strong> Only two days left and the competition is fierce.
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🏏</span>
+                            <p class="commentary-text">
+                                <strong>Team 2 pulls ahead again!</strong> A nail-biting battle at the top of the leaderboard.
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🔥</span>
+                            <p class="commentary-text">
+                                Every step counts now as teams give their all to secure the championship!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Day 5 Commentary -->
+                    <div class="commentary-day day-5">
+                        <div class="commentary-item">
+                            <span class="score-badge update">📢</span>
+                            <p class="commentary-text">
+                                <strong>FINAL DAY!</strong> The championship comes down to this. Who will take home the trophy?
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🏏</span>
+                            <p class="commentary-text">
+                                <strong>Team 1 clinches the championship!</strong> An incredible finish with <span class="highlight">280 total runs</span>!
+                            </p>
+                        </div>
+                        <div class="commentary-item">
+                            <span class="score-badge">🔥</span>
+                            <p class="commentary-text">
+                                <strong>Player 1 named Man of the League!</strong> Outstanding performance throughout the championship.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
