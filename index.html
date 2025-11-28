@@ -896,28 +896,25 @@
             color: var(--text-primary);
         }
 
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+.team-toggle {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
 
-        .status-indicator.ready {
-            background: #D1FAE5;
-            color: #065F46;
-        }
+.team-toggle.open {
+    transform: rotate(180deg);
+}
 
-        .status-indicator::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-        }
+.team-details {
+    display: none; /* Keeps members hidden initially */
+}
+
+
+ 
+
         /* Individual Rankings Styles */
 .leaderboard-content.individual {
     display: none;
@@ -2764,6 +2761,21 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </section>
+
+    <script>
+document.querySelectorAll('.team-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const details = btn.closest('.team-table-card')
+                          .querySelector('.team-details');
+
+        details.style.display = details.style.display === "none" 
+                                ? "block" 
+                                : "none";
+
+        btn.classList.toggle('open');
+    });
+});
+</script>
 
 
    <!-- Leaderboard Section -->
