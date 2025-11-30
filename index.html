@@ -1222,6 +1222,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            height: 100%;
+            min-height: 40px;
         }
 
         .player-avatar {
@@ -1367,6 +1369,9 @@
             gap: 24px;
             flex-wrap: wrap;
             margin-bottom: 32px;
+            padding: 0 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .countdown-unit {
@@ -1377,6 +1382,9 @@
             min-width: 100px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            flex: 1 1 calc(25% - 18px);
+            max-width: 150px;
+            box-sizing: border-box;
         }
 
         .countdown-unit:hover {
@@ -1385,7 +1393,7 @@
         }
 
         .countdown-value {
-            font-size: 56px;
+            font-size: clamp(28px, 8vw, 56px);
             font-weight: 800;
             line-height: 1;
             color: var(--primary-purple);
@@ -1465,6 +1473,16 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .placeholder-leaderboard .table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            max-width: 100%;
         }
 
         .placeholder-header {
@@ -1554,7 +1572,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding: 0 8px;
+            padding: 0 24px;
+            gap: 16px;
         }
 
         .rankings-title {
@@ -1571,7 +1590,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 16px;
+            padding: 10px 20px;
             background: white;
             border: 2px solid var(--border-light);
             border-radius: var(--radius-sm);
@@ -1580,6 +1599,8 @@
             color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-left: auto;
+            flex-shrink: 0;
         }
 
         .filter-btn:hover {
@@ -1667,34 +1688,299 @@
         }
 
         /* Fix table cell alignment for Individual Rankings */
+        .leaderboard-content.individual .table-wrapper {
+            width: 100%;
+            overflow-x: visible;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table {
+            table-layout: fixed;
+            width: 100%;
+        }
+        
         .leaderboard-content.individual .leaderboard-table td {
+            vertical-align: middle !important;
+            height: 56px;
+            padding: 12px 24px;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table tbody tr {
+            height: 56px;
             vertical-align: middle;
-            height: auto;
-            padding: 16px 24px;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table tbody tr td {
+            vertical-align: middle !important;
+            margin: 0;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table tbody tr td > * {
+            margin: 0;
+        }
+        
+        .leaderboard-content.individual .player-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+            white-space: nowrap;
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .leaderboard-content.individual .player-avatar {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .leaderboard-content.individual .player-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
         }
 
         .leaderboard-content.individual .team-badge {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             vertical-align: middle;
+            white-space: nowrap !important;
+            line-height: 1.2;
+            overflow: visible;
+            text-overflow: clip;
+            min-width: fit-content;
+            flex-shrink: 0;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table th:first-child,
+        .leaderboard-content.individual .leaderboard-table td:first-child {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 10% !important;
+            white-space: nowrap;
+            overflow: visible !important;
+            text-overflow: clip !important;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table th:nth-child(2),
+        .leaderboard-content.individual .leaderboard-table td:nth-child(2) {
+            vertical-align: middle !important;
+            width: 38% !important;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table th:nth-child(3),
+        .leaderboard-content.individual .leaderboard-table td:nth-child(3) {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 30% !important;
+            white-space: nowrap !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            min-width: 0;
+        }
+        
+        .leaderboard-content.individual .leaderboard-table th:nth-child(4),
+        .leaderboard-content.individual .leaderboard-table td:nth-child(4),
+        .leaderboard-content.individual .leaderboard-table th:nth-child(5),
+        .leaderboard-content.individual .leaderboard-table td:nth-child(5) {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 11% !important;
             white-space: nowrap;
         }
+        
+        /* Ensure player-rows tables also have proper alignment */
+        .leaderboard-content.individual .player-rows {
+            margin-top: 0;
+            border-top: none;
+            table-layout: fixed;
+            width: 100%;
+        }
+        
+        .leaderboard-content.individual .player-rows tbody tr {
+            height: 56px;
+            vertical-align: middle;
+        }
+        
+        .leaderboard-content.individual .player-rows td {
+            vertical-align: middle !important;
+            height: 56px;
+            padding: 12px 24px;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+        }
+        
+        .leaderboard-content.individual .player-rows td > * {
+            margin: 0;
+        }
+        
+        .leaderboard-content.individual .player-rows td:first-child {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 10% !important;
+            white-space: nowrap;
+            overflow: visible !important;
+            text-overflow: clip !important;
+        }
+        
+        .leaderboard-content.individual .player-rows td:nth-child(2) {
+            vertical-align: middle !important;
+            width: 38% !important;
+        }
+        
+        .leaderboard-content.individual .player-rows td:nth-child(3) {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 30% !important;
+            white-space: nowrap !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            min-width: 0;
+        }
+        
+        .leaderboard-content.individual .player-rows td:nth-child(4),
+        .leaderboard-content.individual .player-rows td:nth-child(5) {
+            vertical-align: middle !important;
+            text-align: center;
+            width: 11% !important;
+            white-space: nowrap;
+        }
+        
+        .leaderboard-content.individual .player-rows .player-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+            white-space: nowrap;
+            line-height: 1;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .leaderboard-content.individual .player-rows .player-avatar {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .leaderboard-content.individual .player-rows .player-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
 
+        .challenge-status {
+            text-align: center;
+            font-weight: bold;
+            margin: 16px 0;
+            padding: 0 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
         @media (max-width: 768px) {
             .rankings-header {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
+                align-items: stretch;
+                gap: 16px;
+                padding: 0 16px;
+            }
+            
+            .rankings-title {
+                margin: 0;
+                text-align: center;
             }
 
             .filter-btn {
                 width: 100%;
                 justify-content: center;
+                padding: 12px 20px;
+                margin: 0;
+            }
+            
+            .filter-btn span {
+                display: inline-flex;
+                align-items: center;
             }
 
             .filter-dropdown {
                 right: auto;
                 left: 0;
                 width: 100%;
+            }
+            
+            .challenge-status {
+                padding: 0 16px;
+                margin: 12px 0;
+                font-size: 13px;
+            }
+            
+            .leaderboard-content.individual .table-wrapper {
+                overflow-x: auto;
+                width: 100%;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .leaderboard-content.individual .leaderboard-table {
+                min-width: 600px;
+                display: table;
+            }
+            
+            .leaderboard-content.individual .player-rows {
+                min-width: 600px;
+                display: table;
+            }
+            
+            .leaderboard-content.individual .team-badge {
+                white-space: nowrap !important;
+                min-width: fit-content;
+                flex-shrink: 0;
+                display: inline-flex !important;
+                align-items: center;
+            }
+            
+            .leaderboard-content.individual .leaderboard-table td:nth-child(3),
+            .leaderboard-content.individual .player-rows td:nth-child(3) {
+                white-space: nowrap !important;
+                overflow: visible !important;
+                word-break: keep-all !important;
+                word-wrap: normal !important;
+            }
+            
+            .leaderboard-content.individual .team-badge {
+                white-space: nowrap !important;
+                word-break: keep-all !important;
+                word-wrap: normal !important;
+                overflow-wrap: normal !important;
             }
         }
 
@@ -1791,7 +2077,7 @@
         }
 
         .leaderboard-table thead {
-            background: var(--bg-gradient);
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-mint) 100%);
         }
 
         .leaderboard-table th {
@@ -1802,16 +2088,23 @@
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            vertical-align: middle;
+        }
+        
+        .leaderboard-table thead th {
+            color: white !important;
         }
 
         .leaderboard-table td {
             padding: 20px;
             border-bottom: 1px solid var(--border-light);
             font-size: 15px;
+            vertical-align: middle;
         }
 
         .leaderboard-table tbody tr {
             transition: all 0.2s ease;
+            height: auto;
         }
 
         .leaderboard-table tbody tr:hover {
@@ -2837,6 +3130,23 @@
                 display: none;
             }
 
+            /* Leaderboard Day Selector - Mobile Grid Layout */
+            .leaderboard-day-selector {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+                justify-content: stretch;
+                margin-bottom: 20px;
+            }
+
+            .leaderboard-day-btn {
+                width: 100%;
+                padding: 10px 12px;
+                font-size: 13px;
+                white-space: nowrap;
+                text-align: center;
+            }
+
             /* Leaderboard */
             .leaderboard-tabs {
                 flex-direction: column;
@@ -2868,6 +3178,52 @@
             .leaderboard-content.individual .leaderboard-table th:nth-child(3),
             .leaderboard-content.individual .leaderboard-table td:nth-child(3) {
                 display: table-cell !important;
+            }
+            
+            /* Placeholder Leaderboard Mobile Responsive */
+            .placeholder-leaderboard {
+                border-radius: 12px;
+                overflow: hidden;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .placeholder-header {
+                padding: 16px 20px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            
+            .placeholder-title {
+                font-size: 16px;
+            }
+            
+            .placeholder-leaderboard .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                width: 100%;
+            }
+            
+            .placeholder-leaderboard .leaderboard-table {
+                min-width: 600px;
+                font-size: 13px;
+            }
+            
+            .placeholder-leaderboard .leaderboard-table th,
+            .placeholder-leaderboard .leaderboard-table td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+            
+            /* Hide less important columns on mobile for placeholder */
+            .placeholder-leaderboard .leaderboard-table th:nth-child(3),
+            .placeholder-leaderboard .leaderboard-table td:nth-child(3) {
+                display: none; /* Hide Overs column */
+            }
+            
+            .placeholder-leaderboard .leaderboard-table th:nth-child(5),
+            .placeholder-leaderboard .leaderboard-table td:nth-child(5) {
+                display: none; /* Hide Avg/Player column */
             }
 
             /* Footer */
@@ -2902,19 +3258,26 @@
                 width: 100%;
             }
 
-            /* Commentator's Box */
+            /* Commentator's Box Day Selector - Mobile Grid Layout */
             .day-selector {
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 8px;
+                justify-content: stretch;
+                margin-bottom: 24px;
             }
 
             .day-btn {
-                padding: 8px 12px;
-                min-width: 80px;
+                width: 100%;
+                padding: 10px 12px;
+                min-width: 0;
                 font-size: 12px;
+                white-space: nowrap;
             }
 
             .day-number {
                 font-size: 12px;
+                white-space: nowrap;
             }
 
             .power-play-icon {
@@ -3040,6 +3403,29 @@
                 max-width: 100%;
             }
 
+            /* Day Selectors - Very Small Screens */
+            .leaderboard-day-selector {
+                gap: 6px;
+            }
+
+            .leaderboard-day-btn {
+                padding: 8px 8px;
+                font-size: 12px;
+            }
+
+            .day-selector {
+                gap: 6px;
+            }
+
+            .day-btn {
+                padding: 8px 8px;
+                font-size: 11px;
+            }
+
+            .day-number {
+                font-size: 11px;
+            }
+
             /* Tables overflow scroll */
             .leaderboard-content {
                 overflow-x: auto;
@@ -3051,6 +3437,50 @@
 
             .leaderboard-table {
                 min-width: 300px;
+            }
+
+            /* Countdown Mobile Responsive */
+            .pre-challenge-hero {
+                padding: 40px 16px;
+                margin-bottom: 24px;
+            }
+
+            .pre-challenge-title {
+                font-size: 28px;
+                margin-bottom: 12px;
+            }
+
+            .pre-challenge-subtitle {
+                font-size: 16px;
+                margin-bottom: 6px;
+            }
+
+            .countdown-container {
+                gap: 12px;
+                padding: 0 5px;
+                margin-bottom: 24px;
+            }
+
+            .countdown-unit {
+                padding: 16px 12px;
+                min-width: 70px;
+                max-width: 90px;
+                flex: 1 1 calc(25% - 12px);
+            }
+
+            .countdown-value {
+                font-size: 36px;
+            }
+
+            .countdown-label {
+                font-size: 11px;
+                margin-top: 6px;
+                letter-spacing: 0.5px;
+            }
+
+            .pre-challenge-date {
+                font-size: 13px;
+                margin-bottom: 24px;
             }
         }
 
@@ -3137,6 +3567,65 @@
             max-width: 100%;
             box-sizing: border-box;
         }
+
+        /* Small Phone Countdown Responsive */
+        @media (max-width: 480px) {
+            .pre-challenge-hero {
+                padding: 32px 12px;
+            }
+
+            .countdown-container {
+                gap: 8px;
+                padding: 0 4px;
+            }
+
+            .countdown-unit {
+                padding: 12px 8px;
+                min-width: 60px;
+                max-width: 75px;
+                flex: 1 1 calc(25% - 8px);
+                border-radius: 12px;
+            }
+
+            .countdown-value {
+                font-size: 28px;
+            }
+
+            .countdown-label {
+                font-size: 10px;
+                letter-spacing: 0.3px;
+                margin-top: 4px;
+            }
+
+            .pre-challenge-title {
+                font-size: 24px;
+            }
+
+            .pre-challenge-subtitle {
+                font-size: 14px;
+            }
+        }
+
+        /* Extra Small Phone Countdown Responsive */
+        @media (max-width: 360px) {
+            .countdown-container {
+                gap: 6px;
+            }
+
+            .countdown-unit {
+                padding: 10px 6px;
+                min-width: 55px;
+                max-width: 70px;
+            }
+
+            .countdown-value {
+                font-size: 24px;
+            }
+
+            .countdown-label {
+                font-size: 9px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -3145,27 +3634,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tab switching functionality (Team Standings / Individual Rankings)
     const tabButtons = document.querySelectorAll('.tab-btn');
     const leaderboardContents = document.querySelectorAll('.leaderboard-content');
+    const placeholderLeaderboard = document.getElementById('placeholder-leaderboard');
+
+    function showTabContent(tabType) {
+        // Hide all leaderboard contents
+        leaderboardContents.forEach(content => {
+            content.classList.remove('active');
+            content.style.display = 'none';
+        });
+
+        // Show/hide placeholder based on tab type
+        if (placeholderLeaderboard) {
+            if (tabType === 'team') {
+                placeholderLeaderboard.style.display = 'block';
+            } else {
+                placeholderLeaderboard.style.display = 'none';
+            }
+        }
+
+        // Show the selected leaderboard content
+        const targetContent = document.querySelector(`.leaderboard-content.${tabType}`);
+        if (targetContent) {
+            targetContent.classList.add('active');
+            targetContent.style.display = 'block';
+        }
+    }
 
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
             const tabType = this.getAttribute('data-tab');
 
-            // Remove active class from all tabs and contents
+            // Remove active class from all tabs
             tabButtons.forEach(btn => btn.classList.remove('active'));
-            leaderboardContents.forEach(content => {
-                content.classList.remove('active');
-                content.style.display = 'none'; // Explicitly hide
-            });
 
             // Add active class to clicked tab
             this.classList.add('active');
 
             // Show corresponding content
-            const targetContent = document.querySelector(`.leaderboard-content.${tabType}`);
-            if (targetContent) {
-                targetContent.classList.add('active');
-                targetContent.style.display = 'block'; // Explicitly show
-            }
+            showTabContent(tabType);
         });
     });
 
@@ -3173,8 +3679,16 @@ document.addEventListener('DOMContentLoaded', function() {
     leaderboardContents.forEach(content => {
         if (!content.classList.contains('team')) {
             content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+            content.classList.add('active');
         }
     });
+    
+    // Show placeholder by default (since team tab is active)
+    if (placeholderLeaderboard) {
+        placeholderLeaderboard.style.display = 'block';
+    }
 
     // ==================================================================
     // Individual Rankings with Filter and Expand/Collapse
@@ -3261,6 +3775,11 @@ document.addEventListener('DOMContentLoaded', function() {
             filteredPlayers = allPlayers.filter(p => p.team === currentTeamFilter);
         }
 
+        // Determine which players to display based on expanded state
+        const playersToShow = isExpanded ? filteredPlayers : filteredPlayers.slice(0, 10);
+        const totalPlayers = filteredPlayers.length;
+        const showExpandButton = totalPlayers > 10;
+
         // Generate HTML
         let html = `
             <div class="rankings-header">
@@ -3283,21 +3802,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
             </div>
-            <table class="leaderboard-table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Player</th>
-                        <th>Team</th>
-                        <th>Runs</th>
-                        <th>Steps</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="table-wrapper">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Runs</th>
+                            <th>Steps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
         `;
 
-        // Add first 10 players
-        filteredPlayers.slice(0, 10).forEach((player, idx) => {
+        // Add all players to show (either top 10 or all based on isExpanded)
+        playersToShow.forEach((player, idx) => {
             html += `
                 <tr>
                     <td>${idx + 1}</td>
@@ -3314,42 +3834,10 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         });
 
-        html += '</tbody></table>';
+        html += '</tbody></table></div>';
 
-        // Add remaining players in hidden sections
-        if (filteredPlayers.length > 10) {
-            const remainingBatches = Math.ceil((filteredPlayers.length - 10) / 10);
-            
-            for (let batch = 0; batch < remainingBatches; batch++) {
-                const start = 10 + (batch * 10);
-                const end = Math.min(start + 10, filteredPlayers.length);
-                
-                html += `
-                    <table class="leaderboard-table player-rows ${isExpanded ? '' : 'hidden'}" data-batch="${batch + 1}">
-                        <tbody>
-                `;
-                
-                filteredPlayers.slice(start, end).forEach((player, idx) => {
-                    html += `
-                        <tr>
-                            <td>${start + idx + 1}</td>
-                            <td>
-                                <div class="player-cell">
-                                    <div class="player-avatar">${player.name.charAt(0)}</div>
-                                    <span class="player-name">${player.name}</span>
-                                </div>
-                            </td>
-                            <td><span class="team-badge">${player.team}</span></td>
-                            <td>—</td>
-                            <td>—</td>
-                        </tr>
-                    `;
-                });
-                
-                html += '</tbody></table>';
-            }
-
-            // Add expand/collapse button
+        // Add expand/collapse button only if there are more than 10 players
+        if (showExpandButton) {
             html += `
                 <button class="expand-btn ${isExpanded ? 'expanded' : ''}" id="expandBtn">
                     <span>${isExpanded ? 'Show Less' : 'Show More Players'}</span>
@@ -3397,27 +3885,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const expandBtn = document.getElementById('expandBtn');
         if (expandBtn) {
             expandBtn.addEventListener('click', function() {
+                const wasExpanded = isExpanded;
                 isExpanded = !isExpanded;
+                // Re-render the entire table with updated state
+                renderIndividualRankings();
                 
-                const hiddenRows = document.querySelectorAll('.player-rows');
-                hiddenRows.forEach(row => {
-                    if (isExpanded) {
-                        row.classList.remove('hidden');
-                    } else {
-                        row.classList.add('hidden');
-                    }
-                });
-
-                expandBtn.classList.toggle('expanded');
-                expandBtn.querySelector('span:first-child').textContent = isExpanded ? 'Show Less' : 'Show More Players';
-                expandBtn.querySelector('.expand-arrow').textContent = isExpanded ? '▲' : '▼';
-                
-                // Scroll to Individual Player Rankings heading when collapsing
-                if (!isExpanded) {
-                    const rankingsHeader = document.querySelector('.rankings-header');
-                    if (rankingsHeader) {
-                        rankingsHeader.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                // If collapsing (was expanded, now collapsed), scroll to Individual Rankings section
+                if (wasExpanded) {
+                    // Use setTimeout to ensure DOM has updated after re-render
+                    setTimeout(() => {
+                        const individualRankingsSection = document.querySelector('.leaderboard-content.individual');
+                        if (individualRankingsSection) {
+                            individualRankingsSection.scrollIntoView({ 
+                                behavior: 'smooth', 
+                                block: 'start' 
+                            });
+                        }
+                    }, 50);
                 }
             });
         }
@@ -4221,7 +4705,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <p class="team-motto">Medical Excellence</p>
                         </div>
                     </div>
-                    <div class="team-stats"><div class="team-stat-value">7</div><div class="team-stat-label">Players</div></div>
+                    <div class="team-stats"><div class="team-stat-value">8</div><div class="team-stat-label">Players</div></div>
                     <div class="team-arrow" id="team-medex-chargers-arrow">⌄</div>
                 </div>
                 <div class="team-table-body" id="team-medex-chargers-body">
@@ -4403,8 +4887,8 @@ document.querySelectorAll('.team-toggle').forEach(btn => {
                 <button class="tab-btn" data-tab="individual">Individual Rankings</button>
             </div>
 
-            <!-- Placeholder Leaderboard -->
-            <div class="placeholder-leaderboard">
+            <!-- Placeholder Leaderboard (only visible when Team Standings tab is active) -->
+            <div class="placeholder-leaderboard" id="placeholder-leaderboard">
                 <div class="placeholder-header">
                     <div class="placeholder-title">
                         <span>🏏</span>
@@ -4416,84 +4900,86 @@ document.querySelectorAll('.team-toggle').forEach(btn => {
                     </div>
                 </div>
                 
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Team</th>
-                            <th>Overs</th>
-                            <th>Total Runs</th>
-                            <th>Avg/Player</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>Analytics Avengers</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>Care Plan Warriors</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>Finance Super Strikers</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>HR Legends</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>MedEx Chargers</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>Ops Titans</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>Prod United</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                        <tr>
-                            <td>—</td>
-                            <td><strong>Tech Rangers</strong></td>
-                            <td>—</td>
-                            <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
-                            <td>—</td>
-                            <td><span class="team-badge">Locked</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-wrapper">
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Team</th>
+                                <th>Overs</th>
+                                <th>Total Runs</th>
+                                <th>Avg/Player</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>Analytics Avengers</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>Care Plan Warriors</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>Finance Super Strikers</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>HR Legends</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>MedEx Chargers</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>Ops Titans</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>Prod United</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                            <tr>
+                                <td>—</td>
+                                <td><strong>Tech Rangers</strong></td>
+                                <td>—</td>
+                                <td><span class="locked-score" aria-label="Score: To be decided"><span class="cricket-icon">🏏</span> TBD</span></td>
+                                <td>—</td>
+                                <td><span class="team-badge">Locked</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -4635,9 +5121,7 @@ document.querySelectorAll('.team-toggle').forEach(btn => {
 
         <!-- Individual Rankings Table -->
         <div class="leaderboard-content individual">
-            <p class="challenge-status" style="text-align:center; font-weight:bold; margin:10px 0;">
-                Note: Rank is based on Total Runs
-            </p>
+            <p class="challenge-status">Note: Rank is based on Total Runs</p>
             <!-- Day 0 Individual Data -->
             <div class="day-data day-0 active">
                 <!-- This will be populated by JavaScript -->
